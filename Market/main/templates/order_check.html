@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<title>{{ order }}</title>
+<div style="padding: 1%">
+    <h1>{{ order }}</h1>
+    <p>{{ order.creation_date }}</p>
+    <div class="list-group">
+    {% for p in order.product_set.all %}
+        <div>
+        <a href="{{ p.link }}" class="list-group-item list-group-item-success d-flex gap-3 py-3" aria-current="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="5%" height="5%" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+            </svg>
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <h6 class="mb-0">{{ p.name }}</h6>
+                    <p class="mb-0 opacity-75">{{ p.comment }}</p>
+                </div>
+                <small class="opacity-50 text-nowrap"></small>
+            </div>
+        </a>
+        </div>
+    {% endfor %}
+    </div>
+    {% if not order.status %}
+    <form method="post" style="padding: 1%">
+        {% csrf_token %}
+        <div style="padding: 1%; width: 20%">
+        <div>{{ form.errors }}</div>
+        </div >
+
+            <select name="name" class="form-control" style=" width: 50%; margin-bottom: 1%">
+                <label for="floatingInput">Статус</label>
+                <option value="Отклонен">Отклонен</option>
+                <option value="Подтвержден" selected>Подтвержден</option>
+            </select>
+            <div class="form-floating" style=" width: 50%">
+                <input type='text' class="form-control" id="floatingInput" name="reason">
+                <label for="floatingInput">Причина</label>
+            </div>
+        <div style="width: 20%; padding: 1%"><button class="w-100 btn btn-lg btn-success" type="submit" style="width: 10%">Сохранить статус</button></div>
+    </form>
+    {% else %}
+        <div class="list-group" style="width: 40%; padding: 1%">
+            <div class="list-group-item list-group-item-success d-flex gap-3 py-3"><p>Статус заказа: {{ order.status.name }}</p></div>
+            <div class="list-group-item list-group-item-success d-flex gap-3 py-3"><p>Комментарий: {{ order.status.reason }}</p></div>
+            <div class="list-group-item list-group-item-success d-flex gap-3 py-3"><p>Администратор заказа: {{ order.status.admin }}</p></div>
+            <div class="list-group-item list-group-item-success d-flex gap-3 py-3"><p>Дата проверки: {{ order.status.date }}</p></div>
+        </div>
+        <div style="margin-bottom: 3%; margin-top: 1%;"><a href="{{ order.status.get_delete_url }}">
+                <button class="w-1 btn btn-lg btn-danger">Удалить статус заказа <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/></svg></button>
+        </a></div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<title>Вход</title>
+<div style="horiz-align: center; padding: 5% 30% 0% 30%">
+    <form method="post">
+    <h1 class="h3 mb-3 fw-normal">Вход</h1>
+    {% csrf_token %}
+    <div class="form-floating" style="padding-bottom: 1%">
+        <input type='text' class="form-control" id="floatingInput" name="username">
+        <label for="floatingInput">Email</label>
+    </div>
+    <div class="form-floating" style="padding-bottom: 1%">
+        <input type='password' class="form-control" id="floatingInput" name="password">
+        <label for="floatingInput">Пароль</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-success" type="submit">Войти</button>
+    <p class="mt-5 mb-3 text-muted">© Samat-21</p>
+  </form>
+</div>
+{% endblock %}

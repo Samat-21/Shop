@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<title>Регистрация</title>
+<div style="horiz-align: center; padding: 5% 30% 0% 30%">
+    <form method="post">
+    <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
+    {% csrf_token %}
+
+    {% for i in form %}
+    <div class="form-floating" style="padding-bottom: 1%">
+        {% if 'password1' == i.name %}
+            <input type='password' class="form-control" id="floatingInput" name="{{ i.name }}">
+            <label for="floatingInput">Пароль</label>
+            <div>{{ i.errors }}</div>
+        {% elif 'password2' == i.name %}
+            <input type='password' class="form-control" id="floatingInput" name="{{ i.name }}">
+            <label for="floatingInput">Повторите Пароль</label>
+            <div>{{ i.errors }}</div>
+        {% elif 'phone' == i.name %}
+            <input type='tel' class="form-control" id="floatingInput" name="{{ i.name }}">
+            <label for="floatingInput">Номер телефона</label>
+            <div>{{ i.errors }}</div>
+        {% else %}
+            <input type='text' class="form-control" id="floatingInput" name="{{ i.name }}">
+            <label for="floatingInput">{{ i.label }}</label>
+            <div>{{ i.errors }}</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <button class="w-100 btn btn-lg btn-success" type="submit">Зарегистрироваться</button>
+    <p class="mt-5 mb-3 text-muted">© Samat-21</p>
+  </form>
+</div>
+{% endblock %}
